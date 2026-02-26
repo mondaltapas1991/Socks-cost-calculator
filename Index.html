@@ -1,69 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sock Costing Calculator</title>
+    <title>Sock Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; padding: 20px; background-color: #f4f7f6; }
-        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-        h2 { color: #2c3e50; margin-top: 0; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
-        input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
-        .result-box { margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 6px; text-align: center; }
-        .total-price { font-size: 24px; font-weight: bold; color: #2980b9; }
-        .breakdown { font-size: 14px; color: #666; margin-top: 10px; text-align: left; line-height: 1.6; }
+        body { font-family: sans-serif; padding: 20px; background: #f0f0f0; }
+        .box { background: white; padding: 20px; border-radius: 10px; max-width: 300px; margin: auto; }
+        input { width: 100%; margin: 10px 0; padding: 8px; box-sizing: border-box; }
+        .total { font-size: 20px; font-weight: bold; color: blue; text-align: center; }
     </style>
 </head>
 <body>
-
-<div class="card">
-    <h2>Sock Cost Calculator</h2>
-    <p style="font-size: 14px; color: #888;">Calculate price per dozen (12 pairs)</p>
-    
-    <div class="input-group">
-        <label>Weight of 1 Sock (grams)</label>
-        <input type="number" id="weight" placeholder="e.g. 50" oninput="calculate()">
-    </div>
-
-    <div class="input-group">
+    <div class="box">
+        <h3>Sock Costing</h3>
+        <label>Weight (1 sock in grams)</label>
+        <input type="number" id="w" oninput="calc()">
         <label>Yarn Price (per kg)</label>
-        <input type="number" id="price" placeholder="e.g. 10.00" oninput="calculate()">
+        <input type="number" id="p" oninput="calc()">
+        <hr>
+        <div class="total" id="res">$0.00</div>
+        <p style="font-size:12px">Price per dozen (+25% margin)</p>
     </div>
-
-    <div class="result-box">
-        <div>Total Price per Dozen:</div>
-        <div class="total-price" id="total">$0.00</div>
-        
-        <div class="breakdown" id="details">
-            Enter values to see breakdown...
-        </div>
-    </div>
-</div>
-
-<script>
-function calculate() {
-    const weight = parseFloat(document.getElementById('weight').value) || 0;
-    const yarnPrice = parseFloat(document.getElementById('price').value) || 0;
-    const cmt = 3.00; // Fixed CMT as per your notes
-
-    // Logic: ( ( (Weight * 12) / 1000 ) * Yarn Price ) + CMT
-    const rawMaterial = ((weight * 12) / 1000) * yarnPrice;
-    const factoryCost = rawMaterial + cmt;
-    const totalPrice = factoryCost * 1.25; // Adding 25% margin
-
-    document.getElementById('total').innerText = '$' + totalPrice.toFixed(2);
-    
-    if(weight > 0 && yarnPrice > 0) {
-        document.getElementById('details').innerHTML = `
-            • Raw Material: $${rawMaterial.toFixed(2)}<br>
-            • CMT: $${cmt.toFixed(2)}<br>
-            • Margin (25%): $${(totalPrice - factoryCost).toFixed(2)}
-        `;
-    }
-}
-</script>
-
+    <script>
+        function calc() {
+            var w = document.getElementById('w').value || 0;
+            var p = document.getElementById('p').value || 0;
+            var raw = ((w * 12) / 1000) * p;
+            var total = (raw + 3) * 1.25;
+            document.getElementById('res').innerText = '$' + total.toFixed(2);
+        }
+    </script>
 </body>
 </html>
